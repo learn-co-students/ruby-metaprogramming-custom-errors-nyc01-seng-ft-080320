@@ -1,3 +1,5 @@
+
+
 class Person
   attr_accessor :partner, :name
 
@@ -6,8 +8,22 @@ class Person
   end
 
   def get_married(person)
-    self.partner = person
-    person.partner = self
+    begin
+      if person.class == Person
+        self.partner = person
+        person.partner = self
+      else
+        raise PartnerError
+      end
+    rescue PartnerError => error
+      puts error.message
+    end
+  end
+
+  class PartnerError < StandardError
+    def message
+      "You must pass an instance of the class Person to the method get_married"
+    end
   end
 
 end
